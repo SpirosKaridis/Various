@@ -1,0 +1,55 @@
+  #include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+
+    if (argc < 3) // We check whether the necessary info was provided before proceeding
+    {
+        printf("Error! Not enough info provided terminating\n");
+        return 0;
+    }
+
+    int BotBorder = atoi(argv[1]), TopBorder = atoi(argv[2]); // Since argv[1/2] are of type string we need to convert them to int
+    int SeqLength;
+    long long int CurNum, tempNUM;
+
+    if ((TopBorder > 100000000) || (BotBorder < 1)) // We check whether Top/Bottom Borders have acceptable values
+    {
+        printf("0");
+        return 0;
+    }
+
+    int maxLength = 0; // we set an initial, easily changeable max Sequence length
+
+    for (CurNum = BotBorder; CurNum <= TopBorder; CurNum++) // We check everynumber in the BOT - TOP range
+    {
+        if ((CurNum % 2 == 0) || (CurNum % 6 == 5))
+            continue; // EVEN CUTOFF AND MOD 6 = 5 CUTOFF ADDITIONAL INFO NEEDED
+
+        tempNUM = CurNum; // Since we don't want CurNum to change throughout the for loop we keep it's current value in tempNUM
+        SeqLength = 1;
+        while (tempNUM != 1)
+        {
+            if (tempNUM % 2 == 0)
+            {
+                tempNUM /= 2;
+            }
+            else
+            {
+                tempNUM = 3 * tempNUM + 1;
+            }
+            SeqLength++;
+        }
+        if (SeqLength > maxLength)
+        {
+            maxLength = SeqLength; // If we find a larger Sequence length,
+                                   //  we replace the old one
+            printf("Current number %d\n", maxLength);
+        }
+    }
+
+    printf("The largest sequence length is %d\n", maxLength);
+
+    return 0;
+}
